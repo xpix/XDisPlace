@@ -12,231 +12,231 @@ G0 Z1
 G0 X8.4360 Y7.6200
 G0 Z0.3333
 G1 F100 Z0.2500
-(chilipeppr_pause drop1 G1 F100 X0.5)
+(chilipeppr_pause drop1 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 2)
 G0 Z1
 G0 X4.3155 Y7.2390
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop2 G1 F100 X0.5)
+(chilipeppr_pause drop2 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 3)
 G0 Z1
 G0 X2.4155 Y7.2390
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop3 G1 F100 X0.5)
+(chilipeppr_pause drop3 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 4)
 G0 Z1
 G0 X8.4360 Y5.0800
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop4 G1 F100 X0.5)
+(chilipeppr_pause drop4 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 5)
 G0 Z1
 G0 X17.7260 Y2.5400
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop5 G1 F100 X0.5)
+(chilipeppr_pause drop5 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 6)
 G0 Z1
 G0 X10.2075 Y10.4800
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop6 G1 F100 X0.5)
+(chilipeppr_pause drop6 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 7)
 G0 Z1
 G0 X11.9380 Y11.1785
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop7 G1 F100 X0.5)
+(chilipeppr_pause drop7 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 8)
 G0 Z1
 G0 X9.3345 Y14.6175
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop8 G1 F100 X0.5)
+(chilipeppr_pause drop8 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 9)
 G0 Z1
 G0 X1.9050 Y12.9245
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop9 G1 F100 X0.5)
+(chilipeppr_pause drop9 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 10)
 G0 Z1
 G0 X8.1075 Y11.4300
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop10 G1 F100 X0.5)
+(chilipeppr_pause drop10 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 11)
 G0 Z1
 G0 X0.6350 Y14.8167
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop11 G1 F100 X0.5)
+(chilipeppr_pause drop11 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 12)
 G0 Z1
 G0 X1.9050 Y14.8167
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop12 G1 F100 X0.5)
+(chilipeppr_pause drop12 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 13)
 G0 Z1
 G0 X0.6350 Y16.5100
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop13 G1 F100 X0.5)
+(chilipeppr_pause drop13 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 14)
 G0 Z1
 G0 X1.9050 Y16.5100
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop14 G1 F100 X0.5)
+(chilipeppr_pause drop14 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 15)
 G0 Z1
 G0 X0.6350 Y18.2033
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop15 G1 F100 X0.5)
+(chilipeppr_pause drop15 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 16)
 G0 Z1
 G0 X1.9050 Y18.2033
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop16 G1 F100 X0.5)
+(chilipeppr_pause drop16 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 17)
 G0 Z1
 G0 X9.3345 Y17.7675
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop17 G1 F100 X0.5)
+(chilipeppr_pause drop17 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 18)
 G0 Z1
 G0 X17.3990 Y13.2690
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop18 G1 F100 X0.5)
+(chilipeppr_pause drop18 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 19)
 G0 Z1
 G0 X4.1910 Y12.6340
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop19 G1 F100 X0.5)
+(chilipeppr_pause drop19 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 20)
 G0 Z1
 G0 X4.4450 Y14.8167
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop20 G1 F100 X0.5)
+(chilipeppr_pause drop20 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 21)
 G0 Z1
 G0 X5.7150 Y14.8167
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop21 G1 F100 X0.5)
+(chilipeppr_pause drop21 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 22)
 G0 Z1
 G0 X4.4450 Y16.5100
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop22 G1 F100 X0.5)
+(chilipeppr_pause drop22 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 23)
 G0 Z1
 G0 X5.7150 Y16.5100
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop23 G1 F100 X0.5)
+(chilipeppr_pause drop23 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 24)
 G0 Z1
 G0 X4.4450 Y18.2033
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop24 G1 F100 X0.5)
+(chilipeppr_pause drop24 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 25)
 G0 Z1
 G0 X5.7150 Y18.2033
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop25 G1 F100 X0.5)
+(chilipeppr_pause drop25 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 26)
 G0 Z1
 G0 X17.7260 Y5.0800
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop26 G1 F100 X0.5)
+(chilipeppr_pause drop26 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 27)
 G0 Z1
 G0 X17.3990 Y11.3690
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop27 G1 F100 X0.5)
+(chilipeppr_pause drop27 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 28)
 G0 Z1
 G0 X1.9050 Y10.8245
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop28 G1 F100 X0.5)
+(chilipeppr_pause drop28 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 29)
 G0 Z1
 G0 X4.1910 Y10.7340
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop29 G1 F100 X0.5)
+(chilipeppr_pause drop29 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 30)
 G0 Z1
 G0 X10.2075 Y12.3800
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop30 G1 F100 X0.5)
+(chilipeppr_pause drop30 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 31)
 G0 Z1
 G0 X11.9380 Y13.0785
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop31 G1 F100 X0.5)
+(chilipeppr_pause drop31 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 32)
 G0 Z1
 G0 X8.4360 Y2.5400
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop32 G1 F100 X0.5)
+(chilipeppr_pause drop32 G1 F100 X0.01)
 G1 Z0.3333
 (generate Drop Nr: 33)
 G0 Z1
 G0 X17.7260 Y7.6200
 G0 Z0.3333
 G1 Z0.2500
-(chilipeppr_pause drop33 G1 F100 X0.5)
+(chilipeppr_pause drop33 G1 F100 X0.01)
 G1 Z0.3333
 G0 Z1
 G0 Z1

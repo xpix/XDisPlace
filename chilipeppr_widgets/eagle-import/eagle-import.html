@@ -283,7 +283,7 @@
                 
                 Feedrate for Cutting Dimensions
                 <div class="input-group">
-                    <input class="form-control dimension-feedrate" type="number" placeholder="Feedrate" value="100" />
+                    <input class="form-control feedRateDimensions" type="number" placeholder="Feedrate" value="100" />
                     <div class="input-group-addon">mm/min</div>
                 </div>
                 <p class="descriptive-text">The feedrate used for cutting out your dimensions. Default value is 100mm/min.
@@ -309,7 +309,7 @@
                     </div>
                    Diameter of canulla in mm
                    <div class="input-group">
-                       <input class="form-control cannula-diameter" type="number" placeholder="Cannula" value="1" xdisabled />
+                       <input class="form-control cannulaDiameter" type="number" placeholder="Cannula" value="1" xdisabled />
                        <div class="input-group-addon">mm</div>
                    </div>
                    <p class="descriptive-text">
@@ -318,25 +318,48 @@
 
                    Steps for one drop
                    <div class="input-group">
-                       <input class="form-control stepsfordrop" type="number" placeholder="Steps" value="0.5" xdisabled />
-                       <div class="input-group-addon">steps</div>
+                       <input class="form-control stepsfordrop" type="number" placeholder="Steps" value="0.02" xdisabled />
+                       <div class="input-group-addon">mm</div>
                    </div>
                    <p class="descriptive-text">
-                     The steps for dispense a drop of Solder Paste. Think in metric, the default value 0.5mm.
+                     The steps for dispense a drop of Solder Paste. Think in metric, the default value 0.02mm.
                      But please try the test and configure your personal value. It depends from you parameters 
                      for stepper that installed on your second arduino.
                    </p>
 
                    Axis for Dispenser
                    <div class="input-group">
-                       <input class="form-control dispenser-axis" type="string" placeholder="Steps" value="D" xdisabled />
+                       <input class="form-control dispenserAxis" type="string" placeholder="Steps" value="X" xdisabled />
                    </div>
                    <p class="descriptive-text">
                      Please input the name of the Axis for Dispenser Stepper.<br/>
-                     In gcode will display:<br/>
-                     G1 <b>D</b>0.01 F100
                    </p>
 
+                   Dispenser Position Offset for X and Y-Axis
+                   <div class="input-group">
+                       <div class="input-group-addon">X:</div>
+                       <input class="form-control DispenserXoffset" type="number" placeholder="Offsets" value="0" xdisabled />
+                       <div class="input-group-addon">mm</div>
+                   </div>
+                   <div class="input-group">
+                       <div class="input-group-addon">Y:</div>
+                       <input class="form-control DispenserYoffset" type="number" placeholder="Offsets" value="0" xdisabled />
+                       <div class="input-group-addon">mm</div>
+                   </div>
+
+                   <p class="descriptive-text">
+                     The Offset from middle of spindle to the middle of dispenser in mm.
+                   </p>
+
+                   Start and Release Offset
+                   <div class="input-group">
+                       <input class="form-control startreleaseoffset" type="number" placeholder="Steps" value="1" xdisabled />
+                       <div class="input-group-addon">mm</div>
+                   </div>
+                   <p class="descriptive-text">
+                     Please input the start and release way in mm. After the dispense process, the pivot will release 
+                     the press to prevent flow solder paste after the process. The default are 1mm<br/>
+                   </p>
 
                 </div> 
                 <!-- Dispense Setting -->

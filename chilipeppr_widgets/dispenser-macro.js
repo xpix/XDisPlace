@@ -21,7 +21,7 @@ G1 X10
 
 */
 var myWatchChiliPepprPause = {
-   serialPort: "COM3",
+   serialPort: "COM10",
    feedRate: 100,
    init: function() {
       // Uninit previous runs to unsubscribe correctly, i.e.
@@ -79,8 +79,13 @@ var myWatchChiliPepprPause = {
       gcode = gcode.replace(')','');
       // save only relevant gcode string for second device
       // N12 (chilipeppr_pause drop3 G1 X0.5) => G1 X0.5
-      this.DispenserMove  = parseFloat(gcode.split(' ').splice(-1).toString().replace(/[a-z]/ig, ''));
-      this.DispenserGcode = gcode.split(' ').slice(3).join(' ') + "\n";
+      var pieces = gcode.split(/ /);
+      this.DispenserCmd             = pieces[1];
+      this.DispenserMove            = parseFloat(gcode.split(' ').splice(-1).toString().replace(/[a-z]/ig, ''));
+      this.DispenserBackGcode       = "G0 X" + this.DispenserMove*10 + "\n";
+      this.DispenserGcode           = gcode.split(' ').slice(-3).join(' ') + "\n";
+      this.DispenserReleaseGcode    = "G0 X-" + this.DispenserMove*10 + "\n";
+      macro.status("Send to : " + this.serialPort + ' cmd: "' + this.DispenserGcode + '"');
    },
    dispense: function() {
       // wait on main controller's idle state (think asynchron!)
@@ -92,6 +97,14 @@ var myWatchChiliPepprPause = {
       this.ctr++;
       macro.status("Dispensing drop " + this.ctr);
       var cmd = "sendjson "; // + this.serialPort + " ";
+      /* result in gcode at +0.5mm, the idea behind. Solder Paste Syringe has 
+         some histeresis and paste flow true canulla if the stepper stops.
+         We press and then release ...
+         G91
+         G0 F200 X0.5 (go back to original last position) 23.5
+         G1 F100 X0.5 (press ...)                         24.0
+         G0 F200 X-0.5 (release ...)                      23.5
+      */
       var payload = {
          P: this.serialPort,
          Data: [
@@ -100,15 +113,42 @@ var myWatchChiliPepprPause = {
                Id: "dispenseRelCoords" + this.ctr
             },
             {
+               D: this.DispenserBackGcode,
+               Id: "dispenseBack" + this.ctr
+            },
+            {
                D: this.DispenserGcode,
                Id: "dispense" + this.ctr
+            },
+            {
+               D: this.DispenserReleaseGcode,
+               Id: "dispenseRelease" + this.ctr
             }
 
          ]
       };
+
+      // Called most at the end of dispense process to 
+      // release the pivot on a specific position (i.e. -5mm)
+
+      // Called most at the start of dispense process to 
+      // press the pivot to a specific position (i.e. +5mm)
+      if(this.DispenserCmd == 'start' || this.DispenserCmd == 'stop'){
+         payload.data = [
+            {
+               D: "G91\n",
+               Id: "dispenseRelCoords" + this.ctr
+            },
+            {
+               D: this.DispenserGcode,
+               Id: "dispenseRelease" + this.ctr
+            },
+         ];
+      }
+
       cmd += JSON.stringify(payload) + "\n";
       chilipeppr.publish("/com-chilipeppr-widget-serialport/ws/send", cmd);
-      setTimeout(this.unpauseGcode, 10); // seems synchron, cuz buffer are empty on the second controller
+      setTimeout(this.unpauseGcode, 1000); // give dispense some time
    }
 }
 myWatchChiliPepprPause.init();

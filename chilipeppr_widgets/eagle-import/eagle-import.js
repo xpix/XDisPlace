@@ -222,21 +222,40 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
                 }
                 that.calcPasses(el);
             });
-            el.find('.dimension-feedrate').change(function(evt) {
+            el.find('.feedRateDimensions').change(function(evt) {
                 console.log("evt:", evt);
-                that.feedRateDimensions = evt.currentTarget.valueAsNumber;
+                that.options.feedRateDimensions = that.feedRateDimensions = evt.currentTarget.valueAsNumber;
+                that.saveOptionsLocalStorage();
             });
-            el.find('.dispenser-axis').change(function(evt) {
+            el.find('.dispenserAxis').change(function(evt) {
                 console.log("evt:", evt);
-                that.dispenserAxis = evt.currentTarget.valueAsNumber;
+                that.options.dispenserAxis = that.dispenserAxis = evt.currentTarget.valueAsNumber;
+                that.saveOptionsLocalStorage();
             });
             el.find('.stepsfordrop').change(function(evt) {
                 console.log("evt:", evt);
-                that.stepsfordrop = evt.currentTarget.valueAsNumber;
+                that.options.stepsfordrop = that.stepsfordrop = evt.currentTarget.valueAsNumber;
+                that.saveOptionsLocalStorage();
             });
-            el.find('.cannula-diameter').change(function(evt) {
+            el.find('.cannulaDiameter').change(function(evt) {
                 console.log("evt:", evt);
-                that.cannulaDiameter = evt.currentTarget.valueAsNumber;
+                that.options.cannulaDiameter = that.cannulaDiameter = evt.currentTarget.valueAsNumber;
+                that.saveOptionsLocalStorage();
+            });
+            el.find('.startreleaseoffset').change(function(evt) {
+                console.log("evt:", evt);
+                that.options.startreleaseoffset = that.startreleaseoffset = evt.currentTarget.valueAsNumber;
+                that.saveOptionsLocalStorage();
+            });
+            el.find('.DispenserXoffset').change(function(evt) {
+                console.log("evt:", evt);
+                that.options.DispenserXoffset = that.DispenserXoffset = evt.currentTarget.valueAsNumber;
+                that.saveOptionsLocalStorage();
+            });
+            el.find('.DispenserYoffset').change(function(evt) {
+                console.log("evt:", evt);
+                that.options.DispenserYoffset = that.DispenserYoffset = evt.currentTarget.valueAsNumber;
+                that.saveOptionsLocalStorage();
             });
         },
         calcPasses: function(el) {
@@ -729,7 +748,10 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
         stepDownPasses: 3, // use passes or dimension
         cannulaDiameter: 1,
         stepsfordrop: 0.5,
-        dispenserAxis: 'D',
+        startreleaseoffset: 1.0,
+        DispenserXoffset: 0.0,
+        DispenserYoffset: 0.0,
+        dispenserAxis: 'X',
         renderedDrops: [],
         renderDispenserDrops:function(){
             var that = this;
@@ -979,10 +1001,13 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
         exportGcodeDimensions:function(){
             var g = '';
             var that = this;
+
+            var diaOfEndmill = $('.dimension-mill-diameter').val();
+
             // DIMENSION Milling
             g += "(------ DIMENSION Milling -------)\n";
             g += "M5 (spindle off)\n";
-            g += "T" + this.toolCount++ + " M6 (set tool to mill dimension)\n";
+            g += "T" + this.toolCount++ + " M6 (set tool to mill dimension " + diaOfEndmill + ")\n";
             g += "M3 (spindle on)\n";
             g += "F" + this.feedRateDimensions + "\n";
 
@@ -999,6 +1024,25 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
             
             
             // generate dimensions
+            // we need to take into account the diameter of the endmill
+            // for milling dimensions
+            console.group("Generating Dimension Milling");
+            
+            // if we have no dimensions, then let's return
+            if (!this.clipperDimension || !this.clipperDimension.length > 0) {
+                console.warn("for some reason there's no clipperDimension. huh?. returning.");
+                return g;
+            }
+            
+            // create new inflated path
+            var millDim = this.getInflatePath([this.clipperDimension], diaOfEndmill / 2);
+            millDim = millDim[0];
+            // save original clipperDimensions to reset at end of method
+            console.log("original clipperDimension", this.clipperDimension);
+            console.log("inflated dimension:", millDim);
+            var origClipperDimensions = this.clipperDimension;
+            this.clipperDimension = millDim;
+
             // TODO: please check if exists holes in eagle board
             // move to clearance
             g += "G0 Z" + this.clearanceHeight + "\n";
@@ -1042,6 +1086,8 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
 
                 
             }
+            this.clipperDimension = origClipperDimensions;
+            console.groupEnd();
             return g;
         },
         exportGcodeDispenserDrop:function(drop, count){
@@ -1057,8 +1103,8 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
 
             g += "(generate Drop Nr: " + count + ")\n";        // Comment to see the blocks
             g += "G0 Z" + that.clearanceHeight + "\n";         // save height               i.e: Z:1mm
-            g += "G0 X" + vector.x.toFixed(4) 
-                        + " Y" + vector.y.toFixed(4)   
+            g += "G0 X" + (vector.x + that.options.DispenserXoffset).toFixed(4)
+                        + " Y" + (vector.y + that.options.DispenserYoffset).toFixed(4)
                         + "\n";                                // got to position of drop
             g += "G0 Z" + smallClearenceHight + "\n";          // fast go down to 1mm/3 =   i.e: Z:0.33mm
             g += "G1 Z" + dropDepth  + "\n";                   // careful go to dropdepth   i.e: Z:0.05mm
@@ -1080,10 +1126,14 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
 
             console.group('exportGcodeDispenser');
 
-            // Drilling, first sort to drill diameter and change tool to first diameter
             g += "(------ DISPENSER DROP's -------)\n";
             g += "M5 (spindle stop)\n";
+
+            // Start the pivot
+            g += "(chilipeppr_pause start G0 F1000 " + that.dispenserAxis + that.startreleaseoffset + ")\n";
             g += "G0 Z" + that.clearanceHeight + "\n";
+
+            // generate gcode for every drop
             var i = 0;
             this.renderedDrops.forEach(function(thing) {
                console.log('Thing', thing);      
@@ -1096,7 +1146,9 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
                   g += that.exportGcodeDispenserDrop(thing, ++i);
                }
             }, this);
-            g += "G0 Z" + that.clearanceHeight + "\n";
+
+            // Relase the pivot
+            g += "(chilipeppr_pause stop G0 F1000 " + that.dispenserAxis + '-' + that.startreleaseoffset + ")\n";
             console.log('Dispenser GCODE', g);
             console.groupEnd('exportGcodeDispenser');
             return g;
@@ -9898,6 +9950,12 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
 
             this.options = options;
             console.log("options:", options);
+
+            // set input for every found key in input field
+            var el = $('#com-chilipeppr-widget-eagle');
+            for (var key in this.options) {
+               el.find('.' + key).val( this.options[key] );
+            }
 
             // show/hide body
             if (options.showBody) {
