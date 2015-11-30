@@ -79,13 +79,12 @@ var myWatchChiliPepprPause = {
       gcode = gcode.replace(')','');
       // save only relevant gcode string for second device
       // N12 (chilipeppr_pause drop3 G1 X0.5) => G1 X0.5
-      var pieces = gcode.split(/ /);
-      this.DispenserCmd             = pieces[1];
-      this.DispenserMove            = parseFloat(gcode.split(' ').splice(-1).toString().replace(/[a-z]/ig, ''));
+      this.DispenserCmd             = gcode.split(' ').slice(2,3);
+      this.DispenserMove            = parseFloat(gcode.split(' ').slice(-1).toString().replace(/[a-z]/ig, ''));
       this.DispenserBackGcode       = "G0 X" + this.DispenserMove*10 + "\n";
       this.DispenserGcode           = gcode.split(' ').slice(-3).join(' ') + "\n";
       this.DispenserReleaseGcode    = "G0 X-" + this.DispenserMove*10 + "\n";
-      macro.status("Send to : " + this.serialPort + ' cmd: "' + this.DispenserGcode + '"');
+      macro.status("Send to : " + this.serialPort + ' cmd: "' + this.DispenserCmd + '"');
    },
    dispense: function() {
       // wait on main controller's idle state (think asynchron!)
