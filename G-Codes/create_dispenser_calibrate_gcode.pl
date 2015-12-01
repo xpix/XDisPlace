@@ -48,5 +48,6 @@ G0 X$x y$y
 G0 Z0.5
 G1 Z0.3333
 (chilipeppr_pause drop$i$letter G1 F100 X$deep)
-G1 Z0.5";
+G1 Z0.5
+";
 }
