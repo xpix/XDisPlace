@@ -415,6 +415,18 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
             $('#com-chilipeppr-widget-eagle .btn-eagle-sendgcodetows').click(this.sendGcodeToWorkspace.bind(this));
             //$('#com-chilipeppr-widget-eagle .process-list').sortable();
             //$('#com-chilipeppr-widget-eagle .process-list').disableSelection();
+
+            // Setup goto zero - per axis menu
+            for(var i = 0;i<=9;i++){
+               $('#com-chilipeppr-widget-eagle .dropdown-menu a').eq(i).click(this.setCanullaDiameter.bind(this)).prop('href', 'javascript:');
+            }
+        },
+        setCanullaDiameter: function(evt){
+            console.log("setCanullaDiameter. evt.data:", evt.data, "evt:", evt);
+            var diameter = $(evt.currentTarget).attr('diameter');
+            console.log("setCanullaDiameter. diameter:", diameter);
+            $('#com-chilipeppr-widget-eagle').find('.cannulaDiameter').val(diameter);
+            $('#com-chilipeppr-widget-eagle').find('.cannulaDiameter').trigger('change');
         },
         sendGcodeToWorkspace: function() {
             this.exportGcode();
