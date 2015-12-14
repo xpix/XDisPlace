@@ -1,0 +1,104 @@
+﻿<div id="com-chilipeppr-widget-eagle-dispenser">
+             <button type="button" class="btn btn-xs btn-default btn-eagle-sendgcodetows" style="margin: 4px 0;">Send Gcode to Workspace</button>
+
+             <div class="panel eagle-advanced" style="margin-bottom:10px;">
+             <!-- Dispense Setting -->
+                 <div class="checkbox">
+                     <label>
+                        <input type="checkbox" class="dispenser-active" checked><h2>Solder Dispenser</h2></input>
+                     </label>
+                 </div>
+                 <div class="btn-group">
+                     <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span></button>
+                     <ul class="dropdown-menu" role="menu">
+                        <!--
+                        Size and product code from ebay offer:
+                        http://www.ebay.de/itm/321327139655
+
+                        TA14	Teliasia	14GA TAPERED TIP	1.55	Olive	1.25	1pc
+                        TA16	Teliasia	16GA TAPERED TIP	1.2	Grey	1.25	1pc
+                        TA18	Teliasia	18GA TAPERED TIP	0.84	Green	1.25	1pc
+                        TA20	Teliasia	20GA TAPERED TIP	0.58	Pink	1.25	1pc
+                        TA22	Teliasia	22GA TAPERED TIP	0.41	Blue	1.25	1pc
+                        TA25	Teliasia	25GA TAPERED TIP	0.26	Red	1.25	1pc
+                        
+                        BL14050	Teliasia	14GA Blunt End Tip 	1.55	2.1	Olive	0.5	1pc
+                        BL15050	Teliasia	15GA Blunt End Tip 	1.36	1.8	Amber	0.5	1pc
+                        BL18050	Teliasia	18GA Blunt End Tip 	0.84	1.27	Green	0.5	1pc
+                        BL20050	Teliasia	20GA Blunt End Tip 	0.6	0.92	Pink	0.5	1pc
+                        BL21050	Teliasia	21GA Blunt End Tip 	0.51	0.82	Purple	0.5	1pc
+                        BL22050	Teliasia	22GA Blunt End Tip 	0.41	0.72	Blue	0.5	1pc
+                        BL23050	Teliasia	23GA Blunt End Tip 	0.34	0.64	Orange	0.5	1pc
+                        BL25050	Teliasia	25GA Blunt End Tip 	0.26	0.52	Red	0.5	1pc
+                        BL27050	Teliasia	27GA Blunt End Tip 	0.21	0.42	Clear	0.5	1pc
+                        -->
+
+                         <li role="presentation" class="dropdown-header">Color and inside diameter of canullas</li>
+                         <li><a diameter="1.55" href="">Olive  - 1.55 mm</a></li>
+                         <li><a diameter="1.36" href="">Amber  - 1.36 mm</a></li>
+                         <li><a diameter="1.20" href="">Grey   - 1.20 mm</a></li>
+                         <li><a diameter="0.84" href="">Green  - 0.84 mm</a></li>
+                         <li><a diameter="0.60" href="">Pink   - 0.60 mm</a></li>
+                         <li><a diameter="0.51" href="">Purple - 0.51 mm</a></li>
+                         <li><a diameter="0.51" href="">Blue   - 0.41 mm</a></li>
+                         <li><a diameter="0.34" href="">Orange - 0.34 mm</a></li>
+                         <li><a diameter="0.26" href="">Red    - 0.26 mm</a></li>
+                         <li><a diameter="0.21" href="">Clear  - 0.21 mm</a></li>
+                     </ul>&nbsp;Insidediameter of canulla in mm
+                 </div>
+                <div class="input-group">
+                    <input class="form-control cannulaDiameter" type="number" placeholder="Cannula" value="1" xdisabled />
+                    <div class="input-group-addon">mm</div>
+                </div>
+                <p class="descriptive-text">
+                  Diameter from Cannula, try first 1mm.
+                </p>
+
+                Steps for one drop
+                <div class="input-group">
+                    <input class="form-control stepsfordrop" type="number" placeholder="Steps" value="0.02" xdisabled />
+                    <div class="input-group-addon">mm</div>
+                </div>
+                <p class="descriptive-text">
+                  The steps for dispense a drop of Solder Paste. Think in metric, the default value 0.02mm.
+                  But please try the test and configure your personal value. It depends from you parameters 
+                  for stepper that installed on your second arduino.
+                </p>
+
+                Axis for Dispenser
+                <div class="input-group">
+                    <input class="form-control dispenserAxis" type="string" placeholder="Steps" value="X" xdisabled />
+                </div>
+                <p class="descriptive-text">
+                  Please input the name of the Axis for Dispenser Stepper.<br/>
+                </p>
+
+                Dispenser Position Offset for X and Y-Axis
+                <div class="input-group">
+                    <div class="input-group-addon">X:</div>
+                    <input class="form-control DispenserXoffset" type="number" placeholder="Offsets" value="0" xdisabled />
+                    <div class="input-group-addon">mm</div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-addon">Y:</div>
+                    <input class="form-control DispenserYoffset" type="number" placeholder="Offsets" value="0" xdisabled />
+                    <div class="input-group-addon">mm</div>
+                </div>
+
+                <p class="descriptive-text">
+                  The Offset from middle of spindle to the middle of dispenser in mm.
+                </p>
+
+                Start and Release Offset
+                <div class="input-group">
+                    <input class="form-control startreleaseoffset" type="number" placeholder="Steps" value="1" xdisabled />
+                    <div class="input-group-addon">mm</div>
+                </div>
+                <p class="descriptive-text">
+                  Please input the start and release way in mm. After the dispense process, the pivot will release 
+                  the press to prevent flow solder paste after the process. The default are 1mm<br/>
+                </p>
+
+             </div> 
+             <!-- Dispense Setting -->
+</div> 

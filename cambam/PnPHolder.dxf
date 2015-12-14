@@ -1,0 +1,1360 @@
+  0
+SECTION
+  2
+HEADER
+  9
+$ACADVER
+  1
+AC1009
+  9
+$EXTMAX
+ 10
+256.0
+ 20
+105.0
+ 30
+0.0
+  9
+$EXTMIN
+ 10
+0.0
+ 20
+-5.0
+ 30
+0.0
+  9
+$INSUNITS
+ 70
+     4
+  9
+$LUNITS
+ 70
+     2
+  9
+$LUPREC
+ 70
+     4
+  9
+$MEASUREMENT
+ 70
+     1
+  0
+ENDSEC
+  0
+SECTION
+  2
+TABLES
+  0
+TABLE
+  2
+LAYER
+ 70
+     1
+  0
+LAYER
+  2
+0
+ 70
+     0
+ 62
+     7
+  6
+Continuous
+  0
+LAYER
+  2
+Platform
+ 70
+     0
+ 62
+    70
+  6
+Continuous
+  0
+LAYER
+  2
+Befestigung
+ 70
+     0
+ 62
+    70
+  6
+Continuous
+  0
+LAYER
+  2
+PCB_Holder
+ 70
+     0
+ 62
+    70
+  6
+Continuous
+  0
+LAYER
+  2
+Trays
+ 70
+     0
+ 62
+    70
+  6
+Continuous
+  0
+ENDTAB
+  0
+TABLE
+  2
+APPID
+ 70
+     1
+  0
+APPID
+  2
+ACAD
+ 70
+     0
+  0
+ENDTAB
+  0
+ENDSEC
+  0
+SECTION
+  2
+ENTITIES
+  0
+POLYLINE
+  8
+Platform
+ 66
+     1
+ 10
+0.0
+ 20
+0.0
+ 30
+0.0
+ 70
+     1
+  0
+VERTEX
+  8
+Platform
+ 10
+0.0
+ 20
+0.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Platform
+ 10
+249.0
+ 20
+0.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Platform
+ 10
+249.0
+ 20
+100.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Platform
+ 10
+0.0
+ 20
+100.0
+ 42
+0.0
+  0
+SEQEND
+  0
+CIRCLE
+  8
+Befestigung
+ 10
+10.0
+ 20
+90.0
+ 30
+0.0
+ 40
+3.0
+  0
+CIRCLE
+  8
+Befestigung
+ 10
+10.0
+ 20
+10.0
+ 30
+0.0
+ 40
+3.0
+  0
+CIRCLE
+  8
+Befestigung
+ 10
+240.0
+ 20
+90.0
+ 30
+0.0
+ 40
+3.0
+  0
+CIRCLE
+  8
+Befestigung
+ 10
+240.0
+ 20
+10.0
+ 30
+0.0
+ 40
+3.0
+  0
+POLYLINE
+  8
+PCB_Holder
+ 66
+     1
+ 10
+0.0
+ 20
+0.0
+ 30
+0.0
+ 70
+     1
+  0
+VERTEX
+  8
+PCB_Holder
+ 10
+140.0
+ 20
+20.0
+ 42
+0.0
+  0
+VERTEX
+  8
+PCB_Holder
+ 10
+240.0
+ 20
+20.0
+ 42
+0.0
+  0
+VERTEX
+  8
+PCB_Holder
+ 10
+240.0
+ 20
+80.0
+ 42
+0.0
+  0
+VERTEX
+  8
+PCB_Holder
+ 10
+140.0
+ 20
+80.0
+ 42
+0.0
+  0
+SEQEND
+  0
+CIRCLE
+  8
+PCB_Holder
+ 10
+190.0
+ 20
+82.5
+ 30
+0.0
+ 40
+2.5
+  0
+CIRCLE
+  8
+PCB_Holder
+ 10
+190.0
+ 20
+82.5
+ 30
+0.0
+ 40
+5.0
+  0
+CIRCLE
+  8
+PCB_Holder
+ 10
+137.5
+ 20
+50.0
+ 30
+0.0
+ 40
+2.5
+  0
+CIRCLE
+  8
+PCB_Holder
+ 10
+137.5
+ 20
+50.0
+ 30
+0.0
+ 40
+5.0
+  0
+CIRCLE
+  8
+PCB_Holder
+ 10
+242.5
+ 20
+50.0
+ 30
+0.0
+ 40
+2.5
+  0
+CIRCLE
+  8
+PCB_Holder
+ 10
+242.5
+ 20
+50.0
+ 30
+0.0
+ 40
+5.0
+  0
+CIRCLE
+  8
+PCB_Holder
+ 10
+190.0
+ 20
+17.5
+ 30
+0.0
+ 40
+2.5
+  0
+CIRCLE
+  8
+PCB_Holder
+ 10
+190.0
+ 20
+17.5
+ 30
+0.0
+ 40
+5.0
+  0
+POLYLINE
+  8
+Trays
+ 66
+     1
+ 10
+0.0
+ 20
+0.0
+ 30
+0.0
+ 70
+     1
+  0
+VERTEX
+  8
+Trays
+ 10
+20.0
+ 20
+-5.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+28.1
+ 20
+-5.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+28.1
+ 20
+105.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+20.0
+ 20
+105.0
+ 42
+0.0
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Trays
+ 66
+     1
+ 10
+0.0
+ 20
+0.0
+ 30
+0.0
+ 70
+     1
+  0
+VERTEX
+  8
+Trays
+ 10
+30.0
+ 20
+-5.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+38.1
+ 20
+-5.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+38.1
+ 20
+105.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+30.0
+ 20
+105.0
+ 42
+0.0
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Trays
+ 66
+     1
+ 10
+0.0
+ 20
+0.0
+ 30
+0.0
+ 70
+     1
+  0
+VERTEX
+  8
+Trays
+ 10
+40.0
+ 20
+-5.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+48.1
+ 20
+-5.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+48.1
+ 20
+105.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+40.0
+ 20
+105.0
+ 42
+0.0
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Trays
+ 66
+     1
+ 10
+0.0
+ 20
+0.0
+ 30
+0.0
+ 70
+     1
+  0
+VERTEX
+  8
+Trays
+ 10
+50.0
+ 20
+-5.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+58.1
+ 20
+-5.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+58.1
+ 20
+105.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+50.0
+ 20
+105.0
+ 42
+0.0
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Trays
+ 66
+     1
+ 10
+0.0
+ 20
+0.0
+ 30
+0.0
+ 70
+     1
+  0
+VERTEX
+  8
+Trays
+ 10
+60.0
+ 20
+-5.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+68.1
+ 20
+-5.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+68.1
+ 20
+105.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+60.0
+ 20
+105.0
+ 42
+0.0
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Trays
+ 66
+     1
+ 10
+0.0
+ 20
+0.0
+ 30
+0.0
+ 70
+     1
+  0
+VERTEX
+  8
+Trays
+ 10
+70.0
+ 20
+-5.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+82.1
+ 20
+-5.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+82.1
+ 20
+105.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+70.0
+ 20
+105.0
+ 42
+0.0
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Trays
+ 66
+     1
+ 10
+0.0
+ 20
+0.0
+ 30
+0.0
+ 70
+     1
+  0
+VERTEX
+  8
+Trays
+ 10
+84.0
+ 20
+-5.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+96.1
+ 20
+-5.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+96.1
+ 20
+105.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+84.0
+ 20
+105.0
+ 42
+0.0
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Trays
+ 66
+     1
+ 10
+0.0
+ 20
+0.0
+ 30
+0.0
+ 70
+     1
+  0
+VERTEX
+  8
+Trays
+ 10
+99.0
+ 20
+70.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+114.0
+ 20
+70.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+114.0
+ 20
+85.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+99.0
+ 20
+85.0
+ 42
+0.0
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Trays
+ 66
+     1
+ 10
+0.0
+ 20
+0.0
+ 30
+0.0
+ 70
+     1
+  0
+VERTEX
+  8
+Trays
+ 10
+116.0
+ 20
+70.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+131.0
+ 20
+70.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+131.0
+ 20
+85.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+116.0
+ 20
+85.0
+ 42
+0.0
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Trays
+ 66
+     1
+ 10
+0.0
+ 20
+0.0
+ 30
+0.0
+ 70
+     1
+  0
+VERTEX
+  8
+Trays
+ 10
+116.0
+ 20
+53.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+131.0
+ 20
+53.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+131.0
+ 20
+68.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+116.0
+ 20
+68.0
+ 42
+0.0
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Trays
+ 66
+     1
+ 10
+0.0
+ 20
+0.0
+ 30
+0.0
+ 70
+     1
+  0
+VERTEX
+  8
+Trays
+ 10
+99.0
+ 20
+36.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+114.0
+ 20
+36.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+114.0
+ 20
+51.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+99.0
+ 20
+51.0
+ 42
+0.0
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Trays
+ 66
+     1
+ 10
+0.0
+ 20
+0.0
+ 30
+0.0
+ 70
+     1
+  0
+VERTEX
+  8
+Trays
+ 10
+116.0
+ 20
+36.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+131.0
+ 20
+36.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+131.0
+ 20
+51.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+116.0
+ 20
+51.0
+ 42
+0.0
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Trays
+ 66
+     1
+ 10
+0.0
+ 20
+0.0
+ 30
+0.0
+ 70
+     1
+  0
+VERTEX
+  8
+Trays
+ 10
+99.0
+ 20
+19.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+114.0
+ 20
+19.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+114.0
+ 20
+34.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+99.0
+ 20
+34.0
+ 42
+0.0
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Trays
+ 66
+     1
+ 10
+0.0
+ 20
+0.0
+ 30
+0.0
+ 70
+     1
+  0
+VERTEX
+  8
+Trays
+ 10
+116.0
+ 20
+19.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+131.0
+ 20
+19.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+131.0
+ 20
+34.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+116.0
+ 20
+34.0
+ 42
+0.0
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Trays
+ 66
+     1
+ 10
+0.0
+ 20
+0.0
+ 30
+0.0
+ 70
+     1
+  0
+VERTEX
+  8
+Trays
+ 10
+99.0
+ 20
+2.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+114.0
+ 20
+2.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+114.0
+ 20
+17.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+99.0
+ 20
+17.0
+ 42
+0.0
+  0
+SEQEND
+  0
+POLYLINE
+  8
+Trays
+ 66
+     1
+ 10
+0.0
+ 20
+0.0
+ 30
+0.0
+ 70
+     1
+  0
+VERTEX
+  8
+Trays
+ 10
+116.0
+ 20
+2.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+131.0
+ 20
+2.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+131.0
+ 20
+17.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+116.0
+ 20
+17.0
+ 42
+0.0
+  0
+SEQEND
+  0
+CIRCLE
+  8
+Trays
+ 10
+106.0
+ 20
+60.0
+ 30
+0.0
+ 40
+4.05
+  0
+CIRCLE
+  8
+Trays
+ 10
+10.0
+ 20
+60.0
+ 30
+0.0
+ 40
+4.05
+  0
+POLYLINE
+  8
+Trays
+ 66
+     1
+ 10
+0.0
+ 20
+0.0
+ 30
+0.0
+ 70
+     1
+  0
+VERTEX
+  8
+Trays
+ 10
+242.0
+ 20
+45.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+256.0
+ 20
+45.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+256.0
+ 20
+55.0
+ 42
+0.0
+  0
+VERTEX
+  8
+Trays
+ 10
+242.0
+ 20
+55.0
+ 42
+0.0
+  0
+SEQEND
+  0
+ENDSEC
+  0
+EOF

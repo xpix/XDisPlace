@@ -112,6 +112,18 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
             // init 3d for eagle widget
             this.init3d();
 
+            chilipeppr.load("#com-chilipeppr-widgetholder-eagle-dispenser", "http://fiddle.jshell.net/xpix/w7noyp41/show/light/",
+             function () {
+                 cprequire(
+                 ["inline:com-chilipeppr-widget-eagle-dispenser"],
+         
+                 function (disp) {
+                     console.log('Dispenser: ', disp);
+                     disp.init();
+                 });
+             });
+
+
             this.setupMouseOver();
             
             this.setupAdvancedInflateByUI();
@@ -225,36 +237,6 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
             el.find('.feedRateDimensions').change(function(evt) {
                 console.log("evt:", evt);
                 that.options.feedRateDimensions = that.feedRateDimensions = evt.currentTarget.valueAsNumber;
-                that.saveOptionsLocalStorage();
-            });
-            el.find('.dispenserAxis').change(function(evt) {
-                console.log("evt:", evt);
-                that.options.dispenserAxis = that.dispenserAxis = evt.currentTarget.valueAsNumber;
-                that.saveOptionsLocalStorage();
-            });
-            el.find('.stepsfordrop').change(function(evt) {
-                console.log("evt:", evt);
-                that.options.stepsfordrop = that.stepsfordrop = evt.currentTarget.valueAsNumber;
-                that.saveOptionsLocalStorage();
-            });
-            el.find('.cannulaDiameter').change(function(evt) {
-                console.log("evt:", evt);
-                that.options.cannulaDiameter = that.cannulaDiameter = evt.currentTarget.valueAsNumber;
-                that.saveOptionsLocalStorage();
-            });
-            el.find('.startreleaseoffset').change(function(evt) {
-                console.log("evt:", evt);
-                that.options.startreleaseoffset = that.startreleaseoffset = evt.currentTarget.valueAsNumber;
-                that.saveOptionsLocalStorage();
-            });
-            el.find('.DispenserXoffset').change(function(evt) {
-                console.log("evt:", evt);
-                that.options.DispenserXoffset = that.DispenserXoffset = evt.currentTarget.valueAsNumber;
-                that.saveOptionsLocalStorage();
-            });
-            el.find('.DispenserYoffset').change(function(evt) {
-                console.log("evt:", evt);
-                that.options.DispenserYoffset = that.DispenserYoffset = evt.currentTarget.valueAsNumber;
                 that.saveOptionsLocalStorage();
             });
         },
@@ -416,17 +398,6 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
             //$('#com-chilipeppr-widget-eagle .process-list').sortable();
             //$('#com-chilipeppr-widget-eagle .process-list').disableSelection();
 
-            // Setup goto zero - per axis menu
-            for(var i = 0;i<=9;i++){
-               $('#com-chilipeppr-widget-eagle .dropdown-menu a').eq(i).click(this.setCanullaDiameter.bind(this)).prop('href', 'javascript:');
-            }
-        },
-        setCanullaDiameter: function(evt){
-            console.log("setCanullaDiameter. evt.data:", evt.data, "evt:", evt);
-            var diameter = $(evt.currentTarget).attr('diameter');
-            console.log("setCanullaDiameter. diameter:", diameter);
-            $('#com-chilipeppr-widget-eagle').find('.cannulaDiameter').val(diameter);
-            $('#com-chilipeppr-widget-eagle').find('.cannulaDiameter').trigger('change');
         },
         sendGcodeToWorkspace: function() {
             this.exportGcode();
@@ -758,91 +729,6 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
         millDiameter: 2,
         stepDownDimensions: -0.5,
         stepDownPasses: 3, // use passes or dimension
-        cannulaDiameter: 1,
-        stepsfordrop: 0.5,
-        startreleaseoffset: 1.0,
-        DispenserXoffset: 0.0,
-        DispenserYoffset: 0.0,
-        dispenserAxis: 'X',
-        renderedDrops: [],
-        renderDispenserDrops:function(){
-            var that = this;
-
-            // remove all old drops
-            this.renderedDrops.forEach(function(thing) {
-                that.sceneRemove(thing);
-            }, this);
-
-            if(! $('#com-chilipeppr-widget-eagle .dispenser-active').is(':checked'))
-               return;
-            
-            // get all smd pads,
-            var clippers = this.clipperBySignalKey;
-            console.group("drawDispenserDrops");
-            for ( keyname in clippers ){
-               clippers[keyname].smds.forEach(function(smd){
-                  // get absolute position'
-                  var vector = new THREE.Vector3();
-                  vector.setFromMatrixPosition( smd.threeObj.matrixWorld );
-
-                  var diameter = that.cannulaDiameter+(that.cannulaDiameter/2);
-                  var radius = diameter / 2;
-                  var ar_drop = Math.PI * (radius*radius);
-                  
-                   // Calculate bigger smd pads as canulla diameter*2
-                   // +-----+
-                   // | O O |
-                   // | O O |
-                   // +-----+
-                   var s = smd.smd;
-                   console.log("SMD Pad: ", smd);
-                   if(s.dx >= diameter*2 || s.dy >= diameter*2){
-                        var steps_x = Math.round(s.dx/diameter);
-                        var steps_y = Math.round(s.dy/diameter);
-                        var space_x = (s.dx-(steps_x * diameter)) / steps_x;
-                        var space_y = (s.dy-(steps_y * diameter)) / steps_y;
-
-                        var startx = vector.x-(s.dx/2) + radius + (space_x/2);
-                        var starty = vector.y-(s.dy/2) + radius + (space_y/2);
-
-                        var group = new THREE.Object3D();//create an empty container
-                        for(var iy=1; iy <= steps_y; iy++){
-                           for(var ix=1; ix <= steps_x;ix++){
-                              var drop = that.drawSphere(startx, starty, (that.cannulaDiameter/2), that.colorsDrop[0]);
-                              group.add( drop );//add a mesh with geometry to it
-                              startx += diameter + space_x;
-                           }
-                           startx = vector.x-(s.dx/2) + radius + (space_x/2);
-                           starty += diameter + space_y;
-                        }
-                        that.renderedDrops.push(group);
-                        if(s.rot != null){
-                           // group.rotation.z = - parseInt(s.rot.substring(1)) * (Math.PI / 180);
-                        }
-                                                      
-                        that.sceneAdd(group);
-                   }  else {
-                     // calculate area and mark drop with traffic colors
-                     var ar_smd = s.dx * s.dy;
-                     var percent = percent = ar_smd / (ar_drop/100); // area from drop greather then smd pad
-                     if(ar_smd > ar_drop)                            // area from smd pad greather then drop
-                        percent = ar_drop / (ar_smd/100);
-                     var color = that.colorsDrop[0];
-                     if(percent < 80)
-                        color = that.colorsDrop[1];
-                     if(percent < 50)
-                        color = that.colorsDrop[2];
-                     // draw a drop (cone) on this position
-                     var drop = that.drawSphere(vector.x, vector.y, (that.cannulaDiameter/2), color);
-                     that.sceneAdd(drop);
-                     that.renderedDrops.push(drop);
-                  }
-               });
-            }
-            console.groupEnd("drawDispenserDrops");
-
-            // finish
-        },
         generateGcodeHole:function(diameter, x, y){
             var radius = diameter/2;
             var gdiameter = radius-(this.millDiameter/2); // inside milling 
@@ -1102,69 +988,6 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
             console.groupEnd();
             return g;
         },
-        exportGcodeDispenserDrop:function(drop, count){
-            var g = '';
-            var that = this;
-
-            var dropDepth = (that.cannulaDiameter/4).toFixed(4); // got to 1/4 Diameter height, means 1mm drop / Z:0.25mm
-
-            var vector = new THREE.Vector3();
-            vector.setFromMatrixPosition( drop.matrixWorld  );
-
-            var smallClearenceHight = (that.clearanceHeight/3).toFixed(4);
-
-            g += "(generate Drop Nr: " + count + ")\n";        // Comment to see the blocks
-            g += "G0 Z" + that.clearanceHeight + "\n";         // save height               i.e: Z:1mm
-            g += "G0 X" + (vector.x + that.options.DispenserXoffset).toFixed(4)
-                        + " Y" + (vector.y + that.options.DispenserYoffset).toFixed(4)
-                        + "\n";                                // got to position of drop
-            g += "G0 Z" + smallClearenceHight + "\n";          // fast go down to 1mm/3 =   i.e: Z:0.33mm
-            g += "G1 Z" + dropDepth  + "\n";                   // careful go to dropdepth   i.e: Z:0.05mm
-            g += "(chilipeppr_pause drop" 
-                  + count + " G1 F100 "  
-                  + that.dispenserAxis 
-                  + that.stepsfordrop 
-                  + ")\n";                                     // Send pause event and wait for second cnc controller
-            g += "G1 Z" + smallClearenceHight + "\n";          // slow go up to 1mm/3 =   i.e: Z:0.33mm
-
-            return g;
-        },
-        exportGcodeDispenser:function(){
-            var g = '';
-            var that = this;
-
-            if(! $('#com-chilipeppr-widget-eagle .dispenser-active').is(':checked'))
-               return g;
-
-            console.group('exportGcodeDispenser');
-
-            g += "(------ DISPENSER DROP's -------)\n";
-            g += "M5 (spindle stop)\n";
-
-            // Start the pivot
-            g += "(chilipeppr_pause start G0 F1000 " + that.dispenserAxis + that.startreleaseoffset + ")\n";
-            g += "G0 Z" + that.clearanceHeight + "\n";
-
-            // generate gcode for every drop
-            var i = 0;
-            this.renderedDrops.forEach(function(thing) {
-               console.log('Thing', thing);      
-               if(thing.type == 'Object3D'){
-                  thing.children.forEach(function(drop){
-                     g += that.exportGcodeDispenserDrop(drop, ++i);
-                  });
-               }
-               else{
-                  g += that.exportGcodeDispenserDrop(thing, ++i);
-               }
-            }, this);
-
-            // Relase the pivot
-            g += "(chilipeppr_pause stop G0 F1000 " + that.dispenserAxis + '-' + that.startreleaseoffset + ")\n";
-            console.log('Dispenser GCODE', g);
-            console.groupEnd('exportGcodeDispenser');
-            return g;
-        },
         exportGcodeFooter:function(){
             var g = '';
             // move to clearance
@@ -1195,7 +1018,7 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
             g +=  this.exportGcodeDrillVias();
             g +=  this.exportGcodeDrillPads();
             g +=  this.exportGcodeDimensions();
-            g +=  this.exportGcodeDispenser();
+            // g +=  this.dispenserInstance.exportGcodeDispenser(this);
             g +=  this.exportGcodeFooter();
 
             //console.log("gcode:", g);
@@ -1276,6 +1099,8 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
             var isMagicWand = $('#com-chilipeppr-widget-eagle .magic-wand-active').is(':checked');
             var isShow = $('#com-chilipeppr-widget-eagle .show-actual').is(':checked');
             var isSolid = $('#com-chilipeppr-widget-eagle .show-actual-asmesh').is(':checked');
+
+            chilipeppr.publish("/com-chilipeppr-widget-eagle/beforeRender", this);
             
             this.threePathEndMill.forEach(function(p) {
                 this.sceneRemove(p);
@@ -1850,9 +1675,7 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
                     }, this);
                 }
             }
-
-            // Dispenser Code to render drops
-            this.renderDispenserDrops();
+						// 
             
             // Step 4. We now have a gorgeous clipperBySignalKey with polys that are
             // correct with all stuff removed. We have wires, pads, smds, vias.
@@ -2197,6 +2020,8 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
                 //this.threePathEndMillArr.push(group);
                 //this.threePathDeflatedActualArr.push( group );
             }
+
+            chilipeppr.publish("/com-chilipeppr-widget-eagle/afterRender", this);
             
             // Export Gcode
             this.paths = paths;

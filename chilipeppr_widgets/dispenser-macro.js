@@ -19,6 +19,13 @@ F50
 G1 X10
 (chilipeppr_pause drop12 G1 X0.5)
 
+
+// at this moment i found this params:
+
+Canulla: 0.6mm
+Z-Height: 0.3 (C / 2)
+X-Move: 0.6mm
+
 */
 var myWatchChiliPepprPause = {
    serialPort: "COM10",
@@ -79,11 +86,11 @@ var myWatchChiliPepprPause = {
       gcode = gcode.replace(')','');
       // save only relevant gcode string for second device
       // N12 (chilipeppr_pause drop3 G1 X0.5) => G1 X0.5
+      this.release                  = 0.05;
       this.DispenserCmd             = gcode.split(' ').slice(2,3);
       this.DispenserMove            = parseFloat(gcode.split(' ').slice(-1).toString().replace(/[a-z]/ig, ''));
-      this.DispenserBackGcode       = "G0 X" + this.DispenserMove*10 + "\n";
       this.DispenserGcode           = gcode.split(' ').slice(-3).join(' ') + "\n";
-      this.DispenserReleaseGcode    = "G0 X-" + this.DispenserMove*10 + "\n";
+      this.DispenserReleaseGcode    = "G0 X-" + this.release + "\n";
       macro.status("Send to : " + this.serialPort + ' cmd: "' + this.DispenserCmd + '"');
    },
    dispense: function() {
@@ -96,24 +103,12 @@ var myWatchChiliPepprPause = {
       this.ctr++;
       macro.status("Dispensing drop " + this.ctr);
       var cmd = "sendjson "; // + this.serialPort + " ";
-      /* result in gcode at +0.5mm, the idea behind. Solder Paste Syringe has 
-         some histeresis and paste flow true canulla if the stepper stops.
-         We press and then release ...
-         G91
-         G0 F200 X0.5 (go back to original last position) 23.5
-         G1 F100 X0.5 (press ...)                         24.0
-         G0 F200 X-0.5 (release ...)                      23.5
-      */
       var payload = {
          P: this.serialPort,
          Data: [
             {
                D: "G91\n",
                Id: "dispenseRelCoords" + this.ctr
-            },
-            {
-               D: this.DispenserBackGcode,
-               Id: "dispenseBack" + this.ctr
             },
             {
                D: this.DispenserGcode,
@@ -126,24 +121,6 @@ var myWatchChiliPepprPause = {
 
          ]
       };
-
-      // Called most at the end of dispense process to 
-      // release the pivot on a specific position (i.e. -5mm)
-
-      // Called most at the start of dispense process to 
-      // press the pivot to a specific position (i.e. +5mm)
-      if(this.DispenserCmd == 'start' || this.DispenserCmd == 'stop'){
-         payload.data = [
-            {
-               D: "G91\n",
-               Id: "dispenseRelCoords" + this.ctr
-            },
-            {
-               D: this.DispenserGcode,
-               Id: "dispenseRelease" + this.ctr
-            },
-         ];
-      }
 
       cmd += JSON.stringify(payload) + "\n";
       chilipeppr.publish("/com-chilipeppr-widget-serialport/ws/send", cmd);
