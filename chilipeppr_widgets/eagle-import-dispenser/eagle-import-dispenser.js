@@ -23,7 +23,6 @@ cpdefine("inline:com-chilipeppr-widget-eagle-dispenser", ["chilipeppr_ready", "j
         foreignSubscribe: {
         },
         cannulaDiameter: 1,
-        stepsfordrop: 0.5,
         startreleaseoffset: 1.0,
         DispenserXoffset: 0.0,
         DispenserYoffset: 0.0,
@@ -33,7 +32,6 @@ cpdefine("inline:com-chilipeppr-widget-eagle-dispenser", ["chilipeppr_ready", "j
         colorsDrop: [0x298A08, 0x868A08, 0x8A0808] , // green, yellow, red
         options: {
            cannulaDiameter: 1,
-           stepsfordrop: 0.5,
            startreleaseoffset: 1.0,
            DispenserXoffset: 0.0,
            DispenserYoffset: 0.0,
@@ -48,19 +46,17 @@ cpdefine("inline:com-chilipeppr-widget-eagle-dispenser", ["chilipeppr_ready", "j
             }
 
             var el = $('#com-chilipeppr-widget-eagle-dispenser');
+            this.setupUiFromLocalStorage(el);
+
             el.find('.dispenserAxis').change(function(evt) {
                 console.log("evt:", evt);
                 that.options.dispenserAxis = that.dispenserAxis = evt.currentTarget.valueAsNumber;
                 that.saveOptionsLocalStorage();
             });
-            el.find('.stepsfordrop').change(function(evt) {
-                console.log("evt:", evt);
-                that.options.stepsfordrop = that.stepsfordrop = evt.currentTarget.valueAsNumber;
-                that.saveOptionsLocalStorage();
-            });
             el.find('.cannulaDiameter').change(function(evt) {
                 console.log("evt:", evt);
                 that.options.cannulaDiameter = that.cannulaDiameter = evt.currentTarget.valueAsNumber;
+                $('#com-chilipeppr-widget-eagle .btn-refresh').trigger('click');
                 that.saveOptionsLocalStorage();
             });
             el.find('.startreleaseoffset').change(function(evt) {
@@ -78,6 +74,8 @@ cpdefine("inline:com-chilipeppr-widget-eagle-dispenser", ["chilipeppr_ready", "j
                 that.options.DispenserYoffset = that.DispenserYoffset = evt.currentTarget.valueAsNumber;
                 that.saveOptionsLocalStorage();
             });
+
+            // this.forkSetup();
 
             chilipeppr.subscribe("/com-chilipeppr-widget-eagle/beforeRender", this, this.onBeforeRender);
             chilipeppr.subscribe("/com-chilipeppr-widget-eagle/afterRender", this, this.onAfterRender);
@@ -198,7 +196,7 @@ cpdefine("inline:com-chilipeppr-widget-eagle-dispenser", ["chilipeppr_ready", "j
             g += "(chilipeppr_pause drop" 
                   + count + " G1 F100 "  
                   + that.dispenserAxis 
-                  + that.stepsfordrop 
+                  + that.cannulaDiameter 
                   + ")\n";                                     // Send pause event and wait for second cnc controller
             g += "G1 F200 Z" + PARENT.clearanceHeight + "\n";          // slow go up to 1mm/3 =    i.e: Z:0.33mm
 
@@ -244,6 +242,50 @@ cpdefine("inline:com-chilipeppr-widget-eagle-dispenser", ["chilipeppr_ready", "j
             console.log("saving options:", options, "json.stringify:", optionsStr);
             // store cookie
             localStorage.setItem('com-chilipeppr-widget-eagle-dispenser-options', optionsStr);
-        }
+        },
+        setupUiFromLocalStorage: function (el) {
+            // read vals from cookies
+            var options = localStorage.getItem('com-chilipeppr-widget-eagle-dispenser-options');
+
+            if (options) {
+                options = $.parseJSON(options);
+                console.log("just evaled options: ", options);
+            } else {
+                options = {
+                    showBody: true,
+                    port: null,
+                };
+            }
+
+            this.options = options;
+            console.log("options:", options);
+
+            // set input for every found key in input field
+            for (var key in this.options) {
+               el.find('.' + key).val( this.options[key] );
+            }
+        },
+        forkSetup: function () {
+            $('#com-chilipeppr-widget-eagle .panel-title').popover({
+                title: this.name,
+                content: this.desc,
+                trigger: 'hover',
+                placement: "auto",
+                html: true,
+                delay: 200,
+                animation: true
+            });
+
+            // load the pubsub viewer / fork element which decorates our upper right pulldown
+            // menu with the ability to see the pubsubs from this widget and the forking links
+            var that = this;
+            chilipeppr.load("http://fiddle.jshell.net/xpix/qmt3e0sm/show/light/", function () {
+                require(['inline:com-chilipeppr-elem-pubsubviewer'], function (pubsubviewer) {
+                    pubsubviewer.attachTo($('#com-chilipeppr-widget-eagle .panel-heading .dropdown-menu'), that);
+                });
+            });
+
+        },
+
    };
 });  
