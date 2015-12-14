@@ -1,21 +1,12 @@
-﻿requirejs.config({
-    paths: {
-        jqueryui: '//chilipeppr.com/js/jquery-ui-1.10.4/ui/jquery.ui.core',
-        jqueryuiWidget: '//chilipeppr.com/js/jquery-ui-1.10.4/ui/jquery.ui.widget',
-        jqueryuiMouse: '//chilipeppr.com/js/jquery-ui-1.10.4/ui/jquery.ui.mouse',
-        jqueryuiResizeable: '//chilipeppr.com/js/jquery-ui-1.10.4/ui/jquery.ui.resizable',
-    },
-    shim: {
-        jqueryuiWidget: ['jqueryui'],
-        jqueryuiMouse: ['jqueryuiWidget'],
-        jqueryuiResizeable: ['jqueryuiMouse' ]
-    }
-});
-
-// Test this element. This code is auto-removed by the chilipeppr.load()
+﻿// Test this element. This code is auto-removed by the chilipeppr.load()
 cprequire_test(["inline:com-chilipeppr-widget-eagle-dispenser"], function (dispense) {
     console.log("test running of " + dispense.id);
     dispense.init();
+    
+    dispense.renderDispenserDrops({});
+
+    dispense.onBeforeRender({});    
+    dispense.onAfterRender({});
 } /*end_test*/ );
 
 
@@ -31,12 +22,27 @@ cpdefine("inline:com-chilipeppr-widget-eagle-dispenser", ["chilipeppr_ready", "j
         foreignPublish: {},
         foreignSubscribe: {
         },
-        options: {}, // holds base options before loading from localStorage
+        cannulaDiameter: 1,
+        stepsfordrop: 0.5,
+        startreleaseoffset: 1.0,
+        DispenserXoffset: 0.0,
+        DispenserYoffset: 0.0,
+        dispenserAxis: 'X',
+        gcodeOrderNumber: 20,
+        renderedDrops: [],
+        colorsDrop: [0x298A08, 0x868A08, 0x8A0808] , // green, yellow, red
+        options: {
+           cannulaDiameter: 1,
+           stepsfordrop: 0.5,
+           startreleaseoffset: 1.0,
+           DispenserXoffset: 0.0,
+           DispenserYoffset: 0.0,
+           dispenserAxis: 'X'
+        }, // holds base options before loading from localStorage
         init: function () {
             var that = this;
 
             // Setup canulla diameter
-            /*
             for(var i = 0;i<=9;i++){
                $('#com-chilipeppr-widget-eagle-dispenser .dropdown-menu a').eq(i).click(that.setCanullaDiameter.bind(this)).prop('href', 'javascript:');
             }
@@ -72,31 +78,26 @@ cpdefine("inline:com-chilipeppr-widget-eagle-dispenser", ["chilipeppr_ready", "j
                 that.options.DispenserYoffset = that.DispenserYoffset = evt.currentTarget.valueAsNumber;
                 that.saveOptionsLocalStorage();
             });
-            */
 
             chilipeppr.subscribe("/com-chilipeppr-widget-eagle/beforeRender", this, this.onBeforeRender);
             chilipeppr.subscribe("/com-chilipeppr-widget-eagle/afterRender", this, this.onAfterRender);
+            chilipeppr.subscribe("/com-chilipeppr-widget-eagle/addGcode", this, this.onAddGcode);
         },
         onBeforeRender : function(that){
             console.log("Get onBeforeRender:", that);
             // remove all old drops
-            /*
             this.renderedDrops.forEach(function(thing) {
                 that.sceneRemove(thing);
             }, this);
-            */
         },
         onAfterRender : function(that){
             console.log("Get onAfterRender:", that);
-            //this.renderDispenserDrops(that);
+            this.renderDispenserDrops(that);
         },
-        cannulaDiameter: 1,
-        stepsfordrop: 0.5,
-        startreleaseoffset: 1.0,
-        DispenserXoffset: 0.0,
-        DispenserYoffset: 0.0,
-        dispenserAxis: 'X',
-        renderedDrops: [],
+        onAddGcode : function(that){
+            console.log("Get onAddGcode:", that);
+            that.addGcode(this.gcodeOrderNumber , this.exportGcodeDispenser(that) );
+        },
         setCanullaDiameter: function(evt){
             console.log("setCanullaDiameter. evt.data:", evt.data, "evt:", evt);
             var diameter = $(evt.currentTarget).attr('diameter');
@@ -104,13 +105,15 @@ cpdefine("inline:com-chilipeppr-widget-eagle-dispenser", ["chilipeppr_ready", "j
             $('#com-chilipeppr-widget-eagle-dispenser').find('.cannulaDiameter').val(diameter);
             $('#com-chilipeppr-widget-eagle-dispenser').find('.cannulaDiameter').trigger('change');
         },
-        renderDispenserDrops:function(paret){
+        renderDispenserDrops:function(PARENT){
             var that = this;
+            console.log('renderDispenserDrops: ', PARENT);
+
             if(! $('#com-chilipeppr-widget-eagle-dispenser .dispenser-active').is(':checked'))
                return;
             
             // get all smd pads,
-            var clippers = paret.clipperBySignalKey;
+            var clippers = PARENT.clipperBySignalKey;
             console.group("drawDispenserDrops");
             for ( keyname in clippers ){
                clippers[keyname].smds.forEach(function(smd){
@@ -141,7 +144,7 @@ cpdefine("inline:com-chilipeppr-widget-eagle-dispenser", ["chilipeppr_ready", "j
                         var group = new THREE.Object3D();//create an empty container
                         for(var iy=1; iy <= steps_y; iy++){
                            for(var ix=1; ix <= steps_x;ix++){
-                              var drop = paret.drawSphere(startx, starty, (that.cannulaDiameter/2), that.colorsDrop[0]);
+                              var drop = PARENT.drawSphere(startx, starty, (that.cannulaDiameter/2), that.colorsDrop[0]);
                               group.add( drop );//add a mesh with geometry to it
                               startx += diameter + space_x;
                            }
@@ -154,7 +157,7 @@ cpdefine("inline:com-chilipeppr-widget-eagle-dispenser", ["chilipeppr_ready", "j
                            // group.rotation.z = - parseInt(s.rot.substring(1)) * (Math.PI / 180);
                         }
                                                       
-                        that.sceneAdd(group);
+                        PARENT.sceneAdd(group);
                    }  else {
                      // calculate area and mark drop with traffic colors
                      var ar_smd = s.dx * s.dy;
@@ -167,8 +170,8 @@ cpdefine("inline:com-chilipeppr-widget-eagle-dispenser", ["chilipeppr_ready", "j
                      if(percent < 50)
                         color = that.colorsDrop[2];
                      // draw a drop (cone) on this position
-                     var drop = paret.drawSphere(vector.x, vector.y, (that.cannulaDiameter/2), color);
-                     paret.sceneAdd(drop);
+                     var drop = PARENT.drawSphere(vector.x, vector.y, (that.cannulaDiameter/2), color);
+                     PARENT.sceneAdd(drop);
                      that.renderedDrops.push(drop);
                   }
                });
@@ -177,7 +180,7 @@ cpdefine("inline:com-chilipeppr-widget-eagle-dispenser", ["chilipeppr_ready", "j
 
             // finish
         },
-        exportGcodeDispenserDrop:function(drop, count){
+        exportGcodeDispenserDrop:function(drop, count, PARENT){
             var g = '';
             var that = this;
 
@@ -187,7 +190,7 @@ cpdefine("inline:com-chilipeppr-widget-eagle-dispenser", ["chilipeppr_ready", "j
             vector.setFromMatrixPosition( drop.matrixWorld  );
 
             g += "(generate Drop Nr: " + count + ")\n";        // Comment to see the blocks
-            g += "G0 F200 Z" + that.clearanceHeight + "\n";         // save height               i.e: Z:1mm
+            g += "G0 F200 Z" + PARENT.clearanceHeight + "\n";         // save height               i.e: Z:1mm
             g += "G0 X" + (vector.x + that.options.DispenserXoffset).toFixed(4)
                         + " Y" + (vector.y + that.options.DispenserYoffset).toFixed(4)
                         + "\n";                                // got to position of drop
@@ -197,11 +200,11 @@ cpdefine("inline:com-chilipeppr-widget-eagle-dispenser", ["chilipeppr_ready", "j
                   + that.dispenserAxis 
                   + that.stepsfordrop 
                   + ")\n";                                     // Send pause event and wait for second cnc controller
-            g += "G1 F200 Z" + that.clearanceHeight + "\n";          // slow go up to 1mm/3 =    i.e: Z:0.33mm
+            g += "G1 F200 Z" + PARENT.clearanceHeight + "\n";          // slow go up to 1mm/3 =    i.e: Z:0.33mm
 
             return g;
         },
-        exportGcodeDispenser:function(){
+        exportGcodeDispenser:function(PARENT){
             var g = '';
             var that = this;
 
@@ -219,11 +222,11 @@ cpdefine("inline:com-chilipeppr-widget-eagle-dispenser", ["chilipeppr_ready", "j
                console.log('Thing', thing);      
                if(thing.type == 'Object3D'){
                   thing.children.forEach(function(drop){
-                     g += that.exportGcodeDispenserDrop(drop, ++i);
+                     g += that.exportGcodeDispenserDrop(drop, ++i, PARENT);
                   });
                }
                else{
-                  g += that.exportGcodeDispenserDrop(thing, ++i);
+                  g += that.exportGcodeDispenserDrop(thing, ++i, PARENT);
                }
             }, this);
 
