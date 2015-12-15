@@ -69,8 +69,8 @@ cprequire_test(["inline:com-chilipeppr-widget-eagle"], function (ew) {
 cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "jqueryuiWidget"], function () {
     return {
         id: "com-chilipeppr-widget-eagle",
-        url: "http://fiddle.jshell.net/chilipeppr/do9cc5zh/show/light/",
-        fiddleurl: "http://jsfiddle.net/chilipeppr/do9cc5zh/",
+        url: "http://fiddle.jshell.net/xpix/qmt3e0sm/show/light/",
+        fiddleurl: "http://jsfiddle.net/xpix/qmt3e0sm/",
         name: "Widget / Eagle PCB",
         desc: "This widget lets you drag in an Eagle PCB \".brd\" file to mill.",
         publish: {},
@@ -81,6 +81,7 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
         foreignSubscribe: {
             '/com-chilipeppr-elem-dragdrop/ondropped': 'We subscribe to this signal at a higher priority to intercept the signal, double check if it is an Eagle Brd file and if so, we do not let it propagate by returning false. That way the 3D Viewer, Gcode widget, or other widgets will not get Eagle Brd file drag/drop events because they will not know how to interpret them.'
         },
+        dispenserInstance: null,
         init: function (doMyOwnDragDrop) {
 
             // the workspace may want to handle the drag drop
@@ -112,18 +113,6 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
             // init 3d for eagle widget
             this.init3d();
 
-            chilipeppr.load("#com-chilipeppr-widgetholder-eagle-dispenser", "http://fiddle.jshell.net/xpix/w7noyp41/show/light/",
-             function () {
-                 cprequire(
-                 ["inline:com-chilipeppr-widget-eagle-dispenser"],
-         
-                 function (disp) {
-                     console.log('Dispenser: ', disp);
-                     disp.init();
-                 });
-             });
-
-
             this.setupMouseOver();
             
             this.setupAdvancedInflateByUI();
@@ -133,6 +122,14 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
             
             // setup clear button
             $('#com-chilipeppr-widget-eagle .btn-clear').click(this.clearEagleBrd.bind(this));
+
+            chilipeppr.load("#com-chilipeppr-widgetholder-eagle-dispenser", "http://fiddle.jshell.net/xpix/w7noyp41/show/light/",
+                function () {
+                    cprequire(["inline:com-chilipeppr-widget-eagle-dispenser"], function (dispenser) {
+                        dispenser.init();
+                    });
+                });
+
 
             console.log(this.name + " done loading.");
         },
@@ -541,7 +538,6 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
         colorPad: 0x238D23, // pads are green
         colorMill: 0x0000ff, // match color ChiliPeppr shows for milling
         colorHole: 0x8D8D8D, // light gray
-        colorsDrop: [0x298A08, 0x868A08, 0x8A0808] , // green, yellow, red
         colorDimension: 0x8D8D8D, // light gray
         opacitySignal: 0.1,
         opacityDimension: 0.3,
@@ -555,6 +551,7 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
         pathsUnionHoles: null,
         threeDimensions: null,
         clipperDimensions: [], // contains the dimensions of the board as clipper path
+        gcodeParts: [],
         onDraw3dReady: function () {
             console.group("draw3d");
             console.log("iterating Eagle Brd and drawing into 3d viewer");
@@ -1010,20 +1007,29 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
             // we also need to remove redundant moves.
             
             this.toolCount = 0;
-            var g = '';
-            g +=  this.exportGcodeHeader();
-            g +=  this.exportGcodeMilling();
-            g +=  this.exportGcodeMarkVias();
-            g +=  this.exportGcodeMarkPads();
-            g +=  this.exportGcodeDrillVias();
-            g +=  this.exportGcodeDrillPads();
-            g +=  this.exportGcodeDimensions();
-            // g +=  this.dispenserInstance.exportGcodeDispenser(this);
-            g +=  this.exportGcodeFooter();
+            var i = 0;
+            this.addGcode(i++, this.exportGcodeHeader()     );
+            this.addGcode(i++, this.exportGcodeMilling()    );
+            this.addGcode(i++, this.exportGcodeMarkVias()   );
+            this.addGcode(i++, this.exportGcodeMarkPads()   );
+            this.addGcode(i++, this.exportGcodeDrillVias()  );
+            this.addGcode(i++, this.exportGcodeDrillPads()  );
+            this.addGcode(i++, this.exportGcodeDimensions() );
+            this.addGcode(99, this.exportGcodeFooter()      ); // let space for additional gcode entrys
 
-            //console.log("gcode:", g);
+            // ask for additional gcode
+            chilipeppr.publish("/com-chilipeppr-widget-eagle/addGcode", this);
+
+            var g = this.getGcode();
             console.log("done generating gcode. length:", g.length);
             $('.com-chilipeppr-widget-eagle-gcode').text(g);
+        },
+        addGcode : function(count, gcode){
+            this.gcodeParts[count] = gcode;
+        },
+        getGcode : function() {
+            console.log('Get gcodeParts: ', this.gcodeParts);
+            return this.gcodeParts.join('');
         },
         setupAdvancedInflateByUI: function() {
             var smdEl = $('#com-chilipeppr-widget-eagle .inflate-smds-by');
