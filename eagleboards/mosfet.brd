@@ -1561,8 +1561,8 @@ design rules under a new name.</description>
 <element name="Q1" library="SparkFun-DiscreteSemi" package="SOT23-3" value="TSM3404" x="9.2075" y="11.43" rot="R90">
 <attribute name="PROD_ID" value="TRANS-08345" x="9.2075" y="11.43" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
-<element name="R2" library="resistor" package="R0805" value="280R" x="3.3655" y="7.239"/>
-<element name="R3" library="resistor" package="R0805" value="680R" x="11.938" y="12.1285" rot="R90"/>
+<element name="R2" library="resistor" package="R0805" value="280R" x="3.2385" y="6.4135" rot="R54.8"/>
+<element name="R3" library="resistor" package="R0805" value="1K" x="11.938" y="12.1285" rot="R90"/>
 <element name="R4" library="resistor" package="R0805" value="1K" x="17.399" y="12.319" rot="R90"/>
 <element name="R5" library="resistor" package="R0805" value="4.7k" x="4.191" y="11.684" rot="R270"/>
 <element name="LAST-" library="wirepad" package="SMD2,54-5,08" value="" x="5.08" y="16.51"/>
@@ -1572,17 +1572,17 @@ design rules under a new name.</description>
 <signal name="N$1">
 <contactref element="OK1" pad="1"/>
 <contactref element="R2" pad="2"/>
-<wire x1="8.125" y1="7.25" x2="4.375" y2="7.25" width="0.508" layer="1"/>
+<wire x1="8.125" y1="7.25" x2="3.875" y2="7.25" width="0.508" layer="1"/>
 <wire x1="8.375" y1="7.5" x2="8.125" y2="7.25" width="0.508" layer="1"/>
-<wire x1="4.375" y1="7.25" x2="4.3155" y2="7.239" width="0.508" layer="1"/>
+<wire x1="3.875" y1="7.25" x2="3.786109375" y2="7.1897875" width="0.508" layer="1"/>
 <wire x1="8.375" y1="7.5" x2="8.436" y2="7.62" width="0.508" layer="1"/>
 </signal>
 <signal name="N$2">
 <contactref element="MCU" pad="1"/>
 <contactref element="R2" pad="1"/>
-<wire x1="2.5" y1="2.5" x2="2.5" y2="7.125" width="0.508" layer="1"/>
-<wire x1="2.875" y1="2.125" x2="2.5" y2="2.5" width="0.508" layer="1"/>
-<wire x1="2.5" y1="7.125" x2="2.4155" y2="7.239" width="0.508" layer="1"/>
+<wire x1="2.75" y1="2.25" x2="2.75" y2="5.625" width="0.508" layer="1"/>
+<wire x1="2.875" y1="2.125" x2="2.75" y2="2.25" width="0.508" layer="1"/>
+<wire x1="2.75" y1="5.625" x2="2.6908875" y2="5.637209375" width="0.508" layer="1"/>
 <wire x1="2.875" y1="2.125" x2="2.921" y2="2.0955" width="0.508" layer="1"/>
 </signal>
 <signal name="N$3">
@@ -1681,7 +1681,7 @@ design rules under a new name.</description>
 <wire x1="15.24" y1="12.7" x2="16.51" y2="12.2555" width="0.254" layer="1"/>
 <wire x1="16.51" y1="12.2555" x2="16.764" y2="12.319" width="0.254" layer="1"/>
 <wire x1="16.764" y1="12.319" x2="18.4785" y2="12.319" width="0.254" layer="1"/>
-<wire x1="18.4785" y1="12.319" x2="18.161" y2="16.0655" width="0" layer="19" extent="1-1"/>
+<wire x1="18.161" y1="16.0655" x2="18.4785" y2="12.319" width="0" layer="19" extent="1-1"/>
 </signal>
 </signals>
 </board>

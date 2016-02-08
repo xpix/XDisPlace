@@ -19,7 +19,7 @@ cprequire_test(["inline:com-chilipeppr-widget-eagle"], function (ew) {
     //ew.init();
 
     $('#com-chilipeppr-widget-eagle').css('position', 'relative');
-    $('#com-chilipeppr-widget-eagle').css('background', 'none');
+    //$('#com-chilipeppr-widget-eagle').css('background', 'none');
     $('#com-chilipeppr-widget-eagle').css('width', '300px');
     $('body').prepend('<div id="3dviewer"></div>');
 
@@ -123,10 +123,22 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
             // setup clear button
             $('#com-chilipeppr-widget-eagle .btn-clear').click(this.clearEagleBrd.bind(this));
 
-            chilipeppr.load("#com-chilipeppr-widgetholder-eagle-dispenser", "http://fiddle.jshell.net/xpix/w7noyp41/show/light/",
+            chilipeppr.load(
+                "#com-chilipeppr-widgetholder-eagle-dispenser", 
+                "http://fiddle.jshell.net/xpix/w7noyp41/show/light/",
                 function () {
                     cprequire(["inline:com-chilipeppr-widget-eagle-dispenser"], function (dispenser) {
                         dispenser.init();
+                    });
+                });
+
+            chilipeppr.load(
+               "#com-chilipeppr-widgetholder-eagle-pnp", 
+               "https://raw.githubusercontent.com/xpix/chilipeppr-widget-eagle-pickandplace/master/auto-generated-widget.html",
+                function () {
+                    cprequire(["inline:com-chilipeppr-widget-pickandplace"], function (pnp) {
+                        console.log('PNP Obj: ', pnp);
+                        pnp.init();
                     });
                 });
 
@@ -9639,7 +9651,7 @@ cpdefine("inline:com-chilipeppr-widget-eagle", ["chilipeppr_ready", "Clipper", "
             var segments = 16;
             var material = new THREE.MeshBasicMaterial( { 
                      color: color,
-                     wireframe : false,
+                     wireframe : true,
                      transparent: true,
                      opacity: 0.5
                   } ),

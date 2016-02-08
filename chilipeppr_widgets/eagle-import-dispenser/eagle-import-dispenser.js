@@ -129,6 +129,7 @@ cpdefine("inline:com-chilipeppr-widget-eagle-dispenser", ["chilipeppr_ready", "j
                    // | O O |
                    // +-----+
                    var s = smd.smd;
+                   var sgroup = smd.threeObjSmdGroup;
                    console.log("SMD Pad: ", smd);
                    if(s.dx >= diameter*2 || s.dy >= diameter*2){
                         var steps_x = Math.round(s.dx/diameter);
@@ -150,11 +151,12 @@ cpdefine("inline:com-chilipeppr-widget-eagle-dispenser", ["chilipeppr_ready", "j
                            starty += diameter + space_y;
                         }
                         that.renderedDrops.push(group);
-                        if(s.rot != null){
-                           // rotate group around his center
-                           // group.rotation.z = - parseInt(s.rot.substring(1)) * (Math.PI / 180);
+                        if (s.rot != null) {
+                           var rot = parseInt(s.rot.replace(/\D+/,''));
+                           var r = (Math.PI / 180) * rot;
+                           var axis = new THREE.Vector3(0, 0, 1);
+                           PARENT.rotateAroundObjectAxis(group, axis, r);
                         }
-                                                      
                         PARENT.sceneAdd(group);
                    }  else {
                      // calculate area and mark drop with traffic colors

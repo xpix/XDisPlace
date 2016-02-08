@@ -1,4 +1,94 @@
-﻿PNP-Flow for user
+﻿Presentation:
+-------------
+
+Philosophy:
+* "simple as possible"
+* no camera needed cuz accurate position of PNP Holder
+* automaticly sortet components to Trays and pockets
+* position on CNC in every case the same
+* after homing you can use it
+
+Platform: (Photo)
+* milled in MDF, future Delron(POM) or Aluminium
+* Holes for accurate position on whaste board
+* Trays or Feeder numbered from 1 ... 8
+* Pockets lettered from A-L
+* Screw's to hold PCB in 1mm deep Pocket
+* Tunnels for Probe wire's
+* Calibrate block to find zero point
+
+Strategy for Trays:
+* Nozzle move the smd tape to next position
+   https://youtu.be/CVlad7l9HvI?t=463
+* Structure of a tray: 
+   http://www.token.com.tw/chip-resistor/smd-resistor1.htm
+* 1. move nozzle to zero line (cambam) of Tray
+* 2. move 1.75mm in X Direction
+* 3. deep nozzle in a hole 
+* 4. move tape 4mm in Y direction 
+* 5. go back to smd position and get it
+
+Strategy for Pockets:
+* Nozzle move the smd pocket to pocket and get smd component
+   https://youtu.be/CVlad7l9HvI?t=463
+* 1. move nozzle to zero line (cambam) of Tray
+* 2. move 1.75mm in X Direction
+* 3. deep nozzle in a hole 
+* 4. move tape 4mm in Y direction 
+* 5. go back to smd position and get it
+
+PNP Plugin: 
+==========
+* Parameters 
+   * only PNP gcode
+      * send only this pnp gcode to machine
+      * can use for pcb's made in china or osh park with stencil
+   * packagesTrays, packagesPockets:
+      * decide of this input which smd component are sorted to tray or pockets
+      * user can input regular expressions (DIL\d+-SMD)
+   * safetyHeight:
+      * heighest point for nozzle to move without problems
+      * Screw's height are ~10mm
+   * RotationAxis:
+      * axis on the second grbl controller to rotate the nozzle stepper for right direction
+      * resistor in example
+      * all roation values can see in trays/pockets table
+   * Nozzle Outsidediameter
+      * image: noki_nozzle.jpg 
+      * diameter on the smallest side of noozle
+      * use for calculate the way to next cmp in tape
+   * PNP Holder
+      * load pnp holder data from json file
+      * designs for more holder 
+      * horicontal, vertical Design
+
+* Configure trays
+   * Display table (eagle with mosfet)
+   * automatic sort function to make the process very simple
+   * explain Row's 
+   * The components were sorted according to their value
+   * same value, then same tape or pocket
+   * rotation are very important for bigger components in pockets, to know for right position in pocket (check eagle package)
+   * Ignored data are components they are ignored becouse thay are not exists in packagesPockets or packagesTrays
+
+* 3D Platform model
+   * Text describe the name of pocket/trays or the smd component sorted to this tray
+   * the color and text let us know if the tray busy or free
+   * now you can sort all components to trays/pockets
+   
+
+
+
+Function (physics)
+* plugin load 
+
+https://youtu.be/CVlad7l9HvI?t=297
+
+
+
+
+
+PNP-Flow for user
 ------------
 - calibrate
 - set trays
@@ -17,6 +107,15 @@ JS
 * setChannel(GPIO, on|off) : to switch GPIO on or of, check the SPJS with GPIO support
 * setVacuum(on|off) : Open or close the magnetic air ventil
 * onAddGcode(gcode) : add the segments to main gcode (get publish from egale-import widget)
+
+
+Calculate move
+--------------
+
+- Hole in tape: 1.5mm / radius = 0.75mm
+- Outsidediameter Nozzle: 1.0mm = 0.5mm
+- move to corner: 0.75mm - 0.5mm = 0.25mm Y-direction
+- move to next cmp: 4mm + 0.25mm = 4.25mm
 
 
 HTML
@@ -42,6 +141,23 @@ here a try to make a flow:
 If not between this values, then you can adjust the steps/mm for every axis. 
 
    I.e. You measure 19.5mm in X and Y, and your settings are 40 steps/mm. 
+
+Formula for a probe with 
+(real) 20mm diameter and 
+40 steps/mm:
+
+We need 800 steps for 20mm:
+      40 steps * 20mm = 800; 
+
+The machine measure 19.5mm:
+      19,5mm / 800 = 0,024375; 
+
+in mircon:
+      20mm / 0,024375 = 820,5128205128205; 
+
+Result are 41,026
+      820,5128205128205 / 20 = 41,02564102564103; 
+
    Then calculate: 
       40 steps * 20mm = 800; 
       19,5mm / 800 = 0,024375; 
@@ -87,6 +203,9 @@ If not between this values, then you can adjust the steps/mm for every axis.
 * We know the position of the calibrate block. With this information we know everything about position of trays and PCB etc.pp.
 * IMPORTANT: Save the Machineposition on a localspace to help user. If you lose this position, than you can home your machine and go back to this position to find you center/zero point of PNP Platform!
 * Drive the calibrate crosshairs on left/right/top with camera and check if cross in middle
+
+Done as Calibrate Widget: 
+http://chilipeppr-calibrate-xpix.c9users.io/
 
 Topic PickAndPlace
 ==================
