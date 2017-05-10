@@ -25,3 +25,20 @@ json='"start":[10,10],
      "fill":"rectangle"     '
 ````
 Will translate to fill, use modified slicr modul for this on server.
+It's able to use the Fill Modules from Slicr:
+````
+# honeycomp example:
+    my $pattern = 'honeycomb';
+    my $config = Slic3r::Config->new_from_defaults;
+    $config->set('fill_pattern', $pattern);
+    $config->set('external_fill_pattern', $pattern);
+    $config->set('perimeters', 1);
+    $config->set('skirts', 0);
+    $config->set('fill_density', 20);
+    $config->set('layer_height', 0.05);
+    $config->set('perimeter_extruder', 1);
+    $config->set('infill_extruder', 2);
+    my $print = Slic3r::Test::init_print('20mm_cube', config => $config, scale => 2);
+    my $gcode = Slic3r::Test::gcode($print);
+````
+
